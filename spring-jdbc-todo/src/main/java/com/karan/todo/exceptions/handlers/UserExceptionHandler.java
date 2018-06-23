@@ -14,6 +14,17 @@ public class UserExceptionHandler {
 	@ExceptionHandler(UserException.class)
 	public ResponseEntity<ResponseObject> handleException(UserException e) {
 		ResponseObject response = new ResponseObject(e.getErrorCode(), e.getMessage(), e.getData());
-		return new ResponseEntity<ResponseObject>(response, HttpStatus.BAD_REQUEST);
+
+		HttpStatus status = null;
+
+		switch (e.getErrorCode()) {
+		case UserException.CODE_USER_EXISTS:
+		case UserException.CODE_PASSWORD_MISSMATCH:
+		case UserException.CODE_USER_NOT_FOUND:
+		default:
+			status = HttpStatus.BAD_REQUEST;
+		}
+
+		return new ResponseEntity<ResponseObject>(response, status);
 	}
 }
