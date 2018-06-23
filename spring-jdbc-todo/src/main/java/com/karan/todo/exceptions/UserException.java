@@ -1,6 +1,6 @@
 package com.karan.todo.exceptions;
 
-public class UserException extends RuntimeException {
+public class UserException extends Exception {
 	private static final long serialVersionUID = 1624943833503353522L;
 	public static final String USER_EXISTS = "User with the given email address already exists";
 	public static final int CODE_USER_EXISTS = 1000;
