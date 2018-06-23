@@ -1,13 +1,32 @@
 package com.karan.todo.model;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class User {
 	private Integer id;
+
+	@NotEmpty
+	@Length(max = 50, min = 2)
 	private String fname;
+
+	@Length(max = 50)
 	private String lname;
+
+	@Email
+	@NotEmpty
 	private String email;
+
+	@NotEmpty
+	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
 	private String password;
+
+	@NotEmpty
 	private String confirmPassword;
-	
+
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}

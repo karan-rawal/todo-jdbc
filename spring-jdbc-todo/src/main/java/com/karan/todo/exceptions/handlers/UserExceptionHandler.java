@@ -18,6 +18,9 @@ public class UserExceptionHandler {
 		HttpStatus status = null;
 
 		switch (e.getErrorCode()) {
+		case UserException.CODE_USER_VALIDATION:
+			status = HttpStatus.NOT_ACCEPTABLE;
+			break;
 		case UserException.CODE_USER_EXISTS:
 		case UserException.CODE_PASSWORD_MISSMATCH:
 		case UserException.CODE_USER_NOT_FOUND:
