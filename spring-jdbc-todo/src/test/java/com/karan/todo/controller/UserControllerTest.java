@@ -71,4 +71,11 @@ public class UserControllerTest {
 				.andExpect(jsonPath("$.data[0]", containsString("email"))); // eheck if error is related to email
 	}
 
+	@Test
+	public void testRegisterValidUser() throws Exception {
+		Mockito.when(userService.createUser(user)).thenReturn(1);
+		mockMvc.perform(post(USER_REGISTER_API).contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
+				.andExpect(status().isOk());
+	}
+
 }
