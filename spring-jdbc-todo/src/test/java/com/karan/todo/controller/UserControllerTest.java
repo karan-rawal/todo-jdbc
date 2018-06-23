@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.karan.todo.exceptions.UserException;
 import com.karan.todo.exceptions.handlers.GlobalExceptionHandler;
-import com.karan.todo.exceptions.handlers.UserExceptionHandler;
 import com.karan.todo.model.User;
 import com.karan.todo.service.UserServiceImpl;
 
@@ -42,7 +41,7 @@ public class UserControllerTest {
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders.standaloneSetup(userController)
-				.setControllerAdvice(new GlobalExceptionHandler(), new UserExceptionHandler()).build();
+				.setControllerAdvice(new GlobalExceptionHandler()).build();
 		user = new User();
 		user.setFname("Fname");
 		user.setLname("Lname");
@@ -54,8 +53,7 @@ public class UserControllerTest {
 	public static String asJsonString(final Object obj) {
 		try {
 			final ObjectMapper mapper = new ObjectMapper();
-			final String jsonContent = mapper.writeValueAsString(obj);
-			return jsonContent;
+			return mapper.writeValueAsString(obj);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
