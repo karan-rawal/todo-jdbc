@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -49,4 +50,12 @@ public class AppConfig {
 		JdbcTemplate template = new JdbcTemplate(dataSource);
 		return template;
 	}
+
+	@Autowired
+	@Bean
+	public DataSourceTransactionManager getTransactionManager(DataSource dataSource) {
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
+		return dataSourceTransactionManager;
+	}
+
 }

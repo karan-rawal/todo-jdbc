@@ -8,6 +8,8 @@ public class UserException extends Exception {
 	public static final int CODE_PASSWORD_MISSMATCH = 1001;
 	public static final String USER_NOT_FOUND = "User not found";
 	public static final int CODE_USER_NOT_FOUND = 1002;
+	public static final String USER_VALIDATION = "Invalid user request";
+	public static final int CODE_USER_VALIDATION = 1003;
 
 	private int errorCode;
 	private Object data;
