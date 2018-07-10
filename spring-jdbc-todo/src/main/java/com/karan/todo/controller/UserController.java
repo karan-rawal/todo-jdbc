@@ -1,11 +1,9 @@
 package com.karan.todo.controller;
 
 import com.karan.todo.exceptions.UserException;
-import com.karan.todo.model.ResponseObject;
 import com.karan.todo.model.User;
 import com.karan.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,30 +26,17 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    public ResponseEntity<Object> registerUser(@RequestBody @Valid User user, BindingResult result) {
-        try {
-            if (result.hasErrors()) {
-                List<String> errors = getFormattedErrorsList(result);
-                throw new UserException(UserException.USER_VALIDATION, UserException.CODE_USER_VALIDATION, errors);
-            }
-            userService.createUser(user);
-            return ResponseEntity.ok().build();
-        } catch (UserException e) {
-            return handleException(e);
+    public ResponseEntity<Object> registerUser(@RequestBody @Valid User user, BindingResult result) throws UserException {
+        if (result.hasErrors()) {
+            List<String> errors = getFormattedErrorsList(result);
+            throw new UserException(UserException.USER_VALIDATION, UserException.CODE_USER_VALIDATION, errors);
         }
+        userService.createUser(user);
+        return ResponseEntity.ok().build();
     }
 
     private List<String> getFormattedErrorsList(BindingResult result) {
         return result.getFieldErrors().stream().map(f -> f.getField() + ": " + f.getDefaultMessage())
                 .collect(Collectors.toList());
-    }
-
-    private ResponseEntity<Object> handleException(UserException e) {
-        ResponseObject response = new ResponseObject(e.getErrorCode(), e.getMessage(), e.getData());
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        if (e.getErrorCode() == UserException.CODE_USER_VALIDATION) {
-            status = HttpStatus.NOT_ACCEPTABLE;
-        }
-        return new ResponseEntity<>(response, status);
     }
 }
